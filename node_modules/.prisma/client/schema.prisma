@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model credenciales {
+  id             Int    @id @default(autoincrement())
+  pasarela       String @db.VarChar(255)
+  cliente_id     String @db.VarChar(255)
+  cliente_secret String @db.VarChar(250)
+}
+
+model pagos {
+  id     Int @id @default(autoincrement())
+  estado Int
+}
+
+model producto_cantidad {
+  id         Int @id @default(autoincrement())
+  idProducto Int
+  cantidad   Int
+  precio_ars Int
+  precio_usd Int
+  precio_eur Int
+  productos productos @relation(fields: [idProducto], references: [id])
+}
+
+model productos {
+  id        Int    @id @default(autoincrement())
+  nombre    String @db.VarChar(255)
+  imagen    String @db.VarChar(255)
+  id_social Int
+  social social @relation(fields: [id_social], references: [id])
+  producto_cantidad producto_cantidad[]
+}
+
+model social {
+  id     Int    @id @default(autoincrement())
+  nombre String @db.VarChar(255)
+  imagen String @db.VarChar(255)
+  productos productos[]
+}
+
+model usuarios {
+  id         Int    @id @default(autoincrement())
+  nombre     String @db.VarChar(255)
+  contra     String @db.VarChar(255)
+  token      String @db.VarChar(255)
+  expiracion String @db.VarChar(255)
+}
