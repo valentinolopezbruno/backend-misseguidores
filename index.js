@@ -23,7 +23,7 @@ const connection = mysql.createConnection({
   host: "containers-us-west-63.railway.app",
   user: "root",
   password: "7MUIGUMhnTB4vqmjgyK6",
-  database: "railway",
+  database: "|way",
   port:6745
 });
 
@@ -387,9 +387,9 @@ app.get("/productos", async (req, res) => {
     };
     var pathImage = path.resolve(__dirname, `./imagenes/${RedSocial.imagen}`);
     if (fs.existsSync(pathImage)) {
-      RedSocial.imagen = `http://localhost:${PUERTO}/imagenes/` + RedSocial.imagen;
+      RedSocial.imagen = `https://backend-misseguidores-production.up.railway.app/imagenes/` + RedSocial.imagen;
     } else {
-      RedSocial.imagen = `http://localhost:${PUERTO}/imagenes/mistake.jpg`;
+      RedSocial.imagen = `https://backend-misseguidores-production.up.railway.app/imagenes/mistake.jpg`;
     }
     data.push(RedSocial);
 
@@ -416,9 +416,9 @@ app.get("/productos", async (req, res) => {
 
             if (fs.existsSync(pathImage)) {
               producto.imagen =
-              `http://localhost:${PUERTO}/imagenes/` + producto.imagen;
+              `https://backend-misseguidores-production.up.railway.app/imagenes/` + producto.imagen;
             } else {
-              producto.imagen = `http://localhost:${PUERTO}/imagenes/mistake.jpg`;
+              producto.imagen = `https://backend-misseguidores-production.up.railway.app/imagenes/mistake.jpg`;
             }
             data[g].productos.push(producto);
           }
