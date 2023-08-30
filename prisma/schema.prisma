@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://root:7MUIGUMhnTB4vqmjgyK6@containers-us-west-63.railway.app:6745/railway"
 }
 
 model credenciales {

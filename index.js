@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const https = require("https");
 const path = require("path");
 const fs = require("fs-extra");
 const nodemailer = require("nodemailer");
@@ -18,13 +17,14 @@ const prisma = new PrismaClient();
 
 const PuertoAPP = "http://localhost:4200";
 
-const config = require('./config.js');
+const PUERTO =  process.env.PORT || 300
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "admin",
-  password: "hola",
-  database: "folowers",
+  host: "containers-us-west-63.railway.app",
+  user: "root",
+  password: "7MUIGUMhnTB4vqmjgyK6",
+  database: "railway",
+  port:6745
 });
 
 /* const connection = mysql.createConnection({
@@ -34,22 +34,6 @@ const connection = mysql.createConnection({
   database: "ecomerce-ivan",
 }); */
 
-const options = {
-  key: fs.readFileSync("./ssl/my-site-key.pem"),
-  cert: fs.readFileSync("./ssl/chain.pem")
-};
-/* 
-Proto Recv-Q Send-Q Local Address           Foreign Address         State
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
-tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN
-tcp6       0      0 :::80                   :::*                    LISTEN
-tcp6       0      0 :::22                   :::*                    LISTEN
-tcp6       0      0 :::443                  :::*                    LISTEN
-udp        0      0 127.0.0.1:323           0.0.0.0:*
-udp6       0      0 ::1:323                 :::* */
-
-
-const PUERTO = 2053;
 
 connection.connect((err) => {
   if (err) {
@@ -631,8 +615,7 @@ app.get("/cantidad", async (req, res) => {
 
 
 
-/* app.listen(PUERTO, () => {
+app.listen(PUERTO, () => {
   console.log("app corriendo en puerto " + PUERTO);
-}); */
+});
 
-https.createServer(options, app).listen(PUERTO);
