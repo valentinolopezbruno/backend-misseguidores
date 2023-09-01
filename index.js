@@ -29,7 +29,7 @@ const connection = mysql.createConnection({
 
 /* const connection = mysql.createConnection({
   host: "localhost",
-  user: "root",
+  user: "root",aaaaaaaa
   password: "",
   database: "ecomerce-ivan",
 }); */
