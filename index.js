@@ -277,12 +277,12 @@ app.post("/pagar", async  (req, res) => {
     metadata:{id:nuevoProducto.id},
     items: [],
     back_urls: {
-      success: `${PuertoAPP}/success`,
-      failure: `${PuertoAPP}/failure`,
-      pending: `${PuertoAPP}/pending`,
+      success: `https://misseguiodres.web.app/success`,
+      failure: `https://misseguiodres.web.app/failure`,
+      pending: `https://misseguiodres.web.app/pending`,
     },
     notification_url:
-      "https://3360-2803-6d00-c56d-0-38fe-c424-42be-24c7.ngrok.io/webhook",
+      "https://misseguiodres.web.app/webhook",
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
