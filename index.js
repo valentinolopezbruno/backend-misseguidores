@@ -59,6 +59,8 @@ setInterval(() => {
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
 enviarMail = async (productos) => {
+  
+  console.log("entra a enviar mail")
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -84,6 +86,8 @@ enviarMail = async (productos) => {
   };
 
   const info = await transport.sendMail(mensaje);
+
+  console.log(info)
 
 };
 
@@ -241,6 +245,7 @@ app.post("/webhook", async (req, res) => {
         where:{id:metadataId},
         data:{estado:1}
       })
+      console.log("llamo enviar mail")
       enviarMail(data.body.metadata.items);
      /*  console.log("SALE") */
     }
