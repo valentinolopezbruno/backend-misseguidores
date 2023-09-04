@@ -234,19 +234,10 @@ app.post("/webhook", async (req, res) => {
     console.log("data.response.status")
     console.log(data.response.status)
     const metadataId = data.body.metadata.id
-    const Items = data.body
+    const Items = data.body.metadata.items
 
-    console.log("data.body")
-    console.log(data.body)
-
-    console.log("data.body.items")
-    console.log(data.body.items)
-
-    console.log("data.response")
-    console.log(data.response)
-
-    console.log("data.response.items")
-    console.log(data.response.items)
+    console.log("Items")
+    console.log(Items)
 
 
     const pago = await prisma.pagos.findUnique({
@@ -281,7 +272,7 @@ app.post("/pagar", async  (req, res) => {
   const carrito = req.body;
 
   const preference = {
-    metadata:{id:nuevoProducto.id},
+    metadata:{id:nuevoProducto.id, items:[]},
     items: [],
     back_urls: {
       success: `https://misseguiodres.web.app/success`,
@@ -306,6 +297,7 @@ app.post("/pagar", async  (req, res) => {
       quantity: 1,
     };
     preference.items.push(item);
+    preference.metadata.items.push(item);
   }
   mercadopago.preferences
     .create(preference)
