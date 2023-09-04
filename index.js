@@ -68,9 +68,13 @@ enviarMail = async (metadataItems) => {
     },
   };
 
+  console.log("metadata FUERA DEL FOR")
+  console.log(metadataItems);
+
   const texto = ``
 
   for (let i = 0; i < metadataItems.length; i++) {
+    console.log("metadata enel for")
     console.log(metadataItems[i]);
   }
 
