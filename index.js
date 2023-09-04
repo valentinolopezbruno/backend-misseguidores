@@ -300,7 +300,7 @@ app.post("/pagar", async  (req, res) => {
     .create(preference)
     .then((response) => {
      /*  LE MANDO EL INIT POINT PARA QUE SE RENDERICE EN EL FRONT */
-      console.log(preference);
+      /* console.log(preference); */
       res.send(response.body.init_point);
     })
     .catch((error) => {
