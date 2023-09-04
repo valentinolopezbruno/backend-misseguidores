@@ -258,7 +258,7 @@ app.post("/pagar", async  (req, res) => {
 
   const tokenMP = await prisma.credenciales.findMany();
   console.log("tokenMP") 
-  console.log(tokenMP) 
+  console.log(tokenMP[0].cliente_id) 
 
 
   // Agrega credenciales
