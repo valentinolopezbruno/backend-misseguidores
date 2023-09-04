@@ -276,7 +276,9 @@ app.post("/pagar", async  (req, res) => {
         " de " +
         carrito.productos[i].redSocial +
         " x " +
-        carrito.productos[i].cantidad,
+        carrito.productos[i].cantidad + 
+        " al usuario " + 
+        carrito.productos[i].usuario,
       unit_price: carrito.productos[i].precio,
       quantity: 1,
     };
