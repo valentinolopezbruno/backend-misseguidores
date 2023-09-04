@@ -68,13 +68,12 @@ enviarMail = async (productos) => {
     },
   };
 
-
-
   const texto = ``
 
   for (let i = 0; i < productos.length; i++) {
     console.log("Items enel for")
     console.log(productos[i]);
+    texto = texto + productos[i].title + " "
   }
 
   const transport = nodemailer.createTransport(config);
@@ -83,7 +82,7 @@ enviarMail = async (productos) => {
     from: 'vaalen1lopez@gmail.com',
     to: 'vaalen1lopez@gmail.com',
     subject: 'Correo de Prueba',
-    text:``,
+    text:`${texto}`,
   };
 
   const info = await transport.sendMail(mensaje);
