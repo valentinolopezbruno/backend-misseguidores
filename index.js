@@ -68,7 +68,7 @@ enviarMail = async (productos) => {
     },
   };
 
-  const texto = ``
+  var texto = ``
 
   for (let i = 0; i < productos.length; i++) {
     console.log("Items enel for")
