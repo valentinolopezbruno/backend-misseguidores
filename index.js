@@ -264,7 +264,7 @@ app.post("/pagar", async  (req, res) => {
   // Agrega credenciales
   mercadopago.configure({
     access_token:
-      "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
+    `${tokenMP[0].cliente_id}`,
   });
 
 
