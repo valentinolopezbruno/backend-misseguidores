@@ -68,8 +68,7 @@ enviarMail = async (Items) => {
     },
   };
 
-  console.log("Items FUERA DEL FOR")
-  console.log(Items);
+
 
   const texto = ``
 
@@ -233,11 +232,11 @@ app.post("/webhook", async (req, res) => {
     const paymentId = payment.data.id;
     const data = await mercadopago.payment.findById(paymentId);
     console.log(data.response.status)
-    console.log("entrando")
+    console.log("ENTRA")
     const metadataId = data.body.metadata.id
-    const Items = data.body
-/*     console.log("data.body")
-    console.log(Items) */
+    const Items = data.body.items
+    console.log("data.body.items")
+    console.log(Items)
 
 
     const pago = await prisma.pagos.findUnique({
@@ -254,7 +253,7 @@ app.post("/webhook", async (req, res) => {
         data:{estado:1}
       })
       enviarMail(Items);
-      console.log("canseri")
+      console.log("SALE")
     }
   }
 
