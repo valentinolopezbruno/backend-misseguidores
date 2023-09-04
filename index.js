@@ -31,7 +31,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",aaaaaaaa
   password: "",
-  database: "ecomerce-ivan",
+  database:/ "ecomerce-ivan",
 }); */
 
 
@@ -266,7 +266,7 @@ app.post("/pagar", async  (req, res) => {
       pending: `https://misseguiodres.web.app/pending`,
     },
     notification_url:
-      "https://misseguiodres.web.app/webhook",
+      "https://backend-misseguidores-production.up.railway.app/webhook",
   };
 
   for (let i = 0; i < carrito.productos.length; i++) {
