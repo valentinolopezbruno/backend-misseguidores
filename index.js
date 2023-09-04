@@ -58,7 +58,7 @@ setInterval(() => {
  const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
-enviarMail = async () => {
+enviarMail = async (metadataItems) => {
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -74,7 +74,7 @@ enviarMail = async () => {
     from: 'vaalen1lopez@gmail.com',
     to: 'vaalen1lopez@gmail.com',
     subject: 'Correo de Prueba',
-    text:'manserino',
+    text:metadataItems,
   };
 
   const info = await transport.sendMail(mensaje);
@@ -225,6 +225,8 @@ app.post("/webhook", async (req, res) => {
     console.log(data.response.status)
     console.log("entrando")
     const metadataId = data.body.metadata.id
+    const metadataItems = data.body.metadata.items
+
 
     const pago = await prisma.pagos.findUnique({
       where: {
@@ -239,7 +241,7 @@ app.post("/webhook", async (req, res) => {
         where:{id:metadataId},
         data:{estado:1}
       })
-      enviarMail();
+      enviarMail(metadataItems);
       console.log("canseri")
     }
   }
