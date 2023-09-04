@@ -230,12 +230,13 @@ app.post("/webhook", async (req, res) => {
   if (payment.type === "payment") {
     const paymentId = payment.data.id;
     const data = await mercadopago.payment.findById(paymentId);
-    console.log(data.response.status)
     console.log("ENTRA")
+    console.log("data.response.status")
+    console.log(data.response.status)
     const metadataId = data.body.metadata.id
     const Items = data.items
-    console.log("data.items")
-    console.log(Items)
+    console.log("data.body.metadata")
+    console.log(data.body.metadata)
 
 
     const pago = await prisma.pagos.findUnique({
