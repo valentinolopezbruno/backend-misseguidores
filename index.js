@@ -69,7 +69,7 @@ enviarMail = async (Items) => {
   };
 
   console.log("Items FUERA DEL FOR")
-  console.log(Items);
+  console.log(Items.items);
 
   const texto = ``
 
@@ -236,8 +236,8 @@ app.post("/webhook", async (req, res) => {
     console.log("entrando")
     const metadataId = data.body.metadata.id
     const Items = data.body
-    console.log("data.body")
-    console.log(Items)
+/*     console.log("data.body")
+    console.log(Items) */
 
 
     const pago = await prisma.pagos.findUnique({
