@@ -100,24 +100,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-/* --------------------------------- MERCADOPAGO --------------------------------------------------- */
-
-// SDK de Mercado Pago
-const mercadopago = require("mercadopago");
-const { send } = require("process");
-const { URLSearchParams } = require("url");
-
-async function getCredenciales() {
-  const pagos = await prisma.pagos.findMany();
-  console.log(pagos)
-}
-
-getCredenciales();
-// Agrega credenciales
-mercadopago.configure({
-  access_token:
-    "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
-});
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
@@ -268,6 +250,24 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.post("/pagar", async  (req, res) => {
+
+    // SDK de Mercado Pago
+  const mercadopago = require("mercadopago");
+  const { send } = require("process");
+  const { URLSearchParams } = require("url");
+
+  const tokenMP = await prisma.credenciales.findMany();
+  console.log("tokenMP") 
+  console.log(tokenMP) 
+
+
+  // Agrega credenciales
+  mercadopago.configure({
+    access_token:
+      "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
+  });
+
+
         /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
   const nuevoProducto = await prisma.pagos.create({
     data:{
