@@ -88,7 +88,6 @@ enviarMail = async (Items) => {
 
   const info = await transport.sendMail(mensaje);
 
-  console.log(info)
 };
 
 /* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
@@ -234,8 +233,8 @@ app.post("/webhook", async (req, res) => {
     console.log(data.response.status)
     console.log("ENTRA")
     const metadataId = data.body.metadata.id
-    const Items = data.body.items
-    console.log("data.body.items")
+    const Items = data.response.items
+    console.log("data.response.items")
     console.log(Items)
 
 
