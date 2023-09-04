@@ -68,12 +68,12 @@ enviarMail = async (productos) => {
     },
   };
 
-  var texto = ``
+  var texto = `Realizaste una venta de `
 
   for (let i = 0; i < productos.length; i++) {
     console.log("Items enel for")
     console.log(productos[i]);
-    texto = texto + productos[i].title + " "
+    texto = texto + productos[i].title + ", "
   }
 
   const transport = nodemailer.createTransport(config);
