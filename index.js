@@ -71,8 +71,6 @@ enviarMail = async (productos) => {
   var texto = `Realizaste una venta de `
 
   for (let i = 0; i < productos.length; i++) {
-    console.log("Items enel for")
-    console.log(productos[i]);
     texto = texto + productos[i].title + ", "
   }
 
@@ -108,6 +106,10 @@ const upload = multer({ storage: storage });
 const mercadopago = require("mercadopago");
 const { send } = require("process");
 const { URLSearchParams } = require("url");
+
+const pagos = await prisma.pagos.findMany();
+console.log(pagos)
+
 // Agrega credenciale
 mercadopago.configure({
   access_token:
@@ -229,18 +231,17 @@ app.post("/webhook", async (req, res) => {
   if (payment.type === "payment") {
     const paymentId = payment.data.id;
     const data = await mercadopago.payment.findById(paymentId);
-    console.log("ENTRA")
-    console.log("data.response.status")
+/*     console.log("ENTRA")
+    console.log("data.response.status") */
     console.log(data.response.status)
     const metadataId = data.body.metadata.id
-    const itemss = data.body.metadata.items
+/*     const itemss = data.body.metadata.items
 
     console.log("METADATA")
     console.log(data.body.metadata)
 
     console.log("Items")
-    console.log(data.body.metadata.items)
-
+    console.log(data.body.metadata.items) */
 
     const pago = await prisma.pagos.findUnique({
       where: {
@@ -256,7 +257,7 @@ app.post("/webhook", async (req, res) => {
         data:{estado:1}
       })
       enviarMail(data.body.metadata.items);
-      console.log("SALE")
+     /*  console.log("SALE") */
     }
   }
 
@@ -384,7 +385,6 @@ app.get("/capture-order", async (req,res) => {
     }
   })
 
-  console.log("pagado")
   enviarMail();
   res.json({"estado":"pagado"})
 })
