@@ -107,10 +107,10 @@ const mercadopago = require("mercadopago");
 const { send } = require("process");
 const { URLSearchParams } = require("url");
 
-const pagos = await prisma.pagos.findMany();
+const pagos = prisma.pagos.findMany();
 console.log(pagos)
 
-// Agrega credenciale
+// Agrega credenciales
 mercadopago.configure({
   access_token:
     "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
