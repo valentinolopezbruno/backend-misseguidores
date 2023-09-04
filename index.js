@@ -233,8 +233,8 @@ app.post("/webhook", async (req, res) => {
     console.log(data.response.status)
     console.log("ENTRA")
     const metadataId = data.body.metadata.id
-    const Items = data.response.items
-    console.log("data.response.items")
+    const Items = data.items
+    console.log("data.items")
     console.log(Items)
 
 
