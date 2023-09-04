@@ -58,7 +58,7 @@ setInterval(() => {
  const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
-enviarMail = async (metadataItems) => {
+enviarMail = async (Items) => {
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -68,14 +68,14 @@ enviarMail = async (metadataItems) => {
     },
   };
 
-  console.log("metadata FUERA DEL FOR")
-  console.log(metadataItems);
+  console.log("Items FUERA DEL FOR")
+  console.log(Items);
 
   const texto = ``
 
-  for (let i = 0; i < metadataItems.length; i++) {
-    console.log("metadata enel for")
-    console.log(metadataItems[i]);
+  for (let i = 0; i < Items.length; i++) {
+    console.log("Items enel for")
+    console.log(Items[i]);
   }
 
   const transport = nodemailer.createTransport(config);
@@ -235,7 +235,7 @@ app.post("/webhook", async (req, res) => {
     console.log(data.response.status)
     console.log("entrando")
     const metadataId = data.body.metadata.id
-    const metadataItems = data.body.metadata.items
+    const Items = data.body.items
 
 
     const pago = await prisma.pagos.findUnique({
@@ -251,7 +251,7 @@ app.post("/webhook", async (req, res) => {
         where:{id:metadataId},
         data:{estado:1}
       })
-      enviarMail(metadataItems);
+      enviarMail(Items);
       console.log("canseri")
     }
   }
