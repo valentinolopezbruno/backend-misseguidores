@@ -236,6 +236,9 @@ app.post("/webhook", async (req, res) => {
     const metadataId = data.body.metadata.id
     const Items = data.body.metadata.items
 
+    console.log("METADATA")
+    console.log(data.body.metadata)
+
     console.log("Items")
     console.log(Items)
 
