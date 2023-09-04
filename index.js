@@ -234,9 +234,12 @@ app.post("/webhook", async (req, res) => {
     console.log("data.response.status")
     console.log(data.response.status)
     const metadataId = data.body.metadata.id
-    const Items = data.items
-    console.log("data.body.metadata")
-    console.log(data.body.metadata)
+    const Items = data.body
+    console.log("data.body")
+    console.log(data.body)
+
+    console.log("data.response")
+    console.log(data.response)
 
 
     const pago = await prisma.pagos.findUnique({
