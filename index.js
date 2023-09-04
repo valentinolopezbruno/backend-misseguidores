@@ -58,7 +58,7 @@ setInterval(() => {
  const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
-enviarMail = async (Items) => {
+enviarMail = async (productos) => {
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -72,9 +72,9 @@ enviarMail = async (Items) => {
 
   const texto = ``
 
-  for (let i = 0; i < Items.length; i++) {
+  for (let i = 0; i < productos.length; i++) {
     console.log("Items enel for")
-    console.log(Items[i]);
+    console.log(productos[i]);
   }
 
   const transport = nodemailer.createTransport(config);
@@ -256,7 +256,7 @@ app.post("/webhook", async (req, res) => {
         where:{id:metadataId},
         data:{estado:1}
       })
-      enviarMail(Items);
+      enviarMail(data.body.metadata.items);
       console.log("SALE")
     }
   }
