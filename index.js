@@ -59,8 +59,6 @@ setInterval(() => {
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
 enviarMail = async (productos) => {
-  
-  console.log("entra a enviar mail")
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -87,8 +85,6 @@ enviarMail = async (productos) => {
 
   const info = await transport.sendMail(mensaje);
 
-  console.log(info)
-
 };
 
 /* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
@@ -104,6 +100,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+/* --------------------------------- MERCADOPAGO --------------------------------------------------- */
+
+// SDK de Mercado Pago
+const mercadopago = require("mercadopago");
+const { send } = require("process");
+const { URLSearchParams } = require("url");
+
+
+// Agrega credenciales
+mercadopago.configure({
+  access_token:
+    "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
+});
 
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
@@ -245,7 +254,6 @@ app.post("/webhook", async (req, res) => {
         where:{id:metadataId},
         data:{estado:1}
       })
-      console.log("llamo enviar mail")
       enviarMail(data.body.metadata.items);
      /*  console.log("SALE") */
     }
@@ -255,24 +263,6 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.post("/pagar", async  (req, res) => {
-
-    // SDK de Mercado Pago
-  const mercadopago = require("mercadopago");
-  const { send } = require("process");
-  const { URLSearchParams } = require("url");
-
-  const tokenMP = await prisma.credenciales.findMany();
-  console.log("tokenMP") 
-  console.log(tokenMP[0].cliente_id) 
-
-
-  // Agrega credenciales
-  mercadopago.configure({
-    access_token:
-    `${tokenMP[0].cliente_id}`,
-  });
-
-
         /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
   const nuevoProducto = await prisma.pagos.create({
     data:{
