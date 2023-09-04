@@ -68,13 +68,19 @@ enviarMail = async (metadataItems) => {
     },
   };
 
+  const texto = ``
+
+  for (let i = 0; i < metadataItems.length; i++) {
+    console.log(metadataItems[i]);
+  }
+
   const transport = nodemailer.createTransport(config);
 
   const mensaje = {
     from: 'vaalen1lopez@gmail.com',
     to: 'vaalen1lopez@gmail.com',
     subject: 'Correo de Prueba',
-    text:metadataItems,
+    text:``,
   };
 
   const info = await transport.sendMail(mensaje);
