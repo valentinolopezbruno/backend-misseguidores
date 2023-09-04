@@ -69,7 +69,7 @@ enviarMail = async (Items) => {
   };
 
   console.log("Items FUERA DEL FOR")
-  console.log(Items.items);
+  console.log(Items);
 
   const texto = ``
 
