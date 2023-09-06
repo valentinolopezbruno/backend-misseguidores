@@ -108,12 +108,6 @@ const { send } = require("process");
 const { URLSearchParams } = require("url");
 
 
-// Agrega credenciales
-mercadopago.configure({
-  access_token:
-    "TEST-1790631385670646-071709-e8884300ac14cc95ce394ddc5534b9f6-1425228965",
-});
-
 /* --------------------------------- LOGIN --------------------------------------------------- */
 
 
@@ -266,9 +260,12 @@ app.post("/pagar", async  (req, res) => {
   /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
   const credencial = await prisma.credenciales.findMany()
   console.log("credencial")
-  console.log(credencial)
+  console.log(credencial[0].cliente_id)
 
-
+  // Agrega credenciales
+  mercadopago.configure({
+    access_token:credencial[0].cliente_id,
+  });
 
 
   const nuevoProducto = await prisma.pagos.create({
