@@ -280,9 +280,9 @@ app.post("/pagar", async  (req, res) => {
     metadata:{id:nuevoProducto.id, items:[]},
     items: [],
     back_urls: {
-      success: `https://misseguiodres.web.app/success`,
-      failure: `https://misseguiodres.web.app/failure`,
-      pending: `https://misseguiodres.web.app/pending`,
+      success: `https://misseguidores.com/success`,
+      failure: `https://misseguidores.com/failure`,
+      pending: `https://misseguidores.com/pending`,
     },
     notification_url:
       "https://backend-misseguidores-production.up.railway.app/webhook",
@@ -347,8 +347,8 @@ app.post('/create-order-paypal', async (req, res) => {
       brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
-      return_url: `https://misseguiodres.web.app/success`,
-      cancel_url: `https://misseguiodres.web.app/failure`,
+      return_url: `https://misseguidores.com/success`,
+      cancel_url: `https://misseguidores.com/failure`,
     },
   };
 
