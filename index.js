@@ -54,8 +54,8 @@ setInterval(() => {
 
 /* ---------------------------------CONFIG  PAYPAL --------------------------------------------------- */
  const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
- const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
- const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk'
+/*  const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
+ const PAYPAL_API_SECRET = 'EEqGMouNnGTMIWqVS3sL4faOON6l9wAiFLEZHq-b0d7PtHy7OFALhZ3T9SWrUJlVTCfETN1VyFEBOQUk' */
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
 enviarMail = async (productos) => {
@@ -259,8 +259,8 @@ app.post("/webhook", async (req, res) => {
 app.post("/pagar", async  (req, res) => {
   /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
   const credencial = await prisma.credenciales.findMany()
-  console.log("credencial")
-  console.log(credencial[0].cliente_id)
+/*   console.log("credencial")
+  console.log(credencial[0].cliente_id) */
 
   // Agrega credenciales
   mercadopago.configure({
@@ -321,6 +321,10 @@ app.post("/pagar", async  (req, res) => {
 
 /* --------------------------------- PAYPAL --------------------------------------------------- */
 app.post('/create-order-paypal', async (req, res) => {
+  const credencial = await prisma.credenciales.findMany();
+  var PAYPAL_API_CLIENT = credencial[1].cliente_id;
+  var PAYPAL_API_SECRET = credencial[1].cliente_secret;
+
   console.log("entra")
   const order = {
     intent: "CAPTURE",
@@ -333,7 +337,7 @@ app.post('/create-order-paypal', async (req, res) => {
       },
     ],
     application_context: {
-      brand_name: "DeSeguidores.com",
+      brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
       return_url: `http://localhost:4200/success`,
