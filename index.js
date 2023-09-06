@@ -263,7 +263,14 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.post("/pagar", async  (req, res) => {
-        /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
+  /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
+  const credencial = await prisma.credenciales.findMany()
+  console.log("credencial")
+  console.log(credencial)
+
+
+
+
   const nuevoProducto = await prisma.pagos.create({
     data:{
       estado:0
