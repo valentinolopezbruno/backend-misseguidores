@@ -388,6 +388,9 @@ app.post('/create-order-paypal', async (req, res) => {
 
 
 app.get("/capture-order", async (req,res) => {
+  const bodytoken = req
+  console.log("bodytoken")
+  console.log(bodytoken)
   const {token} = req.query;
 
   const credencial = await prisma.credenciales.findMany();
