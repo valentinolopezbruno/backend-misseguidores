@@ -340,8 +340,8 @@ app.post('/create-order-paypal', async (req, res) => {
       brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
-      return_url: `http://localhost:4200/success`,
-      cancel_url: `http://localhost:4200/failure`,
+      return_url: `https://misseguiodres.web.app/success`,
+      cancel_url: `https://misseguiodres.web.app/failure`,
     },
   };
 
