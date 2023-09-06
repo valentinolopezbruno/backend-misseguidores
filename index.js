@@ -373,7 +373,7 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      console.log(response.data);
+      /* console.log(response.data); */
       res.json({"link":response.data.links[i].href});
    }
   }
@@ -382,7 +382,10 @@ app.post('/create-order-paypal', async (req, res) => {
 
 app.get("/capture-order", async (req,res) => {
   const {token} = req.query;
-  console.log(token)
+
+  const credencial = await prisma.credenciales.findMany();
+  var PAYPAL_API_CLIENT = credencial[1].cliente_id;
+  var PAYPAL_API_SECRET = credencial[1].cliente_secret;
 
   const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
     auth:{
@@ -390,6 +393,9 @@ app.get("/capture-order", async (req,res) => {
       password:PAYPAL_API_SECRET
     }
   })
+
+  console.log("response")
+  console.log(response)
 
   enviarMail();
   res.json({"estado":"pagado"})
