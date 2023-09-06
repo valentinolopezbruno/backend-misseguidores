@@ -321,21 +321,28 @@ app.post("/pagar", async  (req, res) => {
 
 /* --------------------------------- PAYPAL --------------------------------------------------- */
 app.post('/create-order-paypal', async (req, res) => {
+  carrito = req.body
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
+  var precio = 0
 
-  console.log("entra")
+  for (let i = 0; i < carrito.productos.length; i++) {
+      precio = carrito.productos[i].precio + precio
+    };
+
+/*   console.log("entra") */
   const order = {
     intent: "CAPTURE",
     purchase_units: [
       {
         amount: {
           currency_code: "USD",
-          value: "105.70",
+          value: precio,
         },
       },
     ],
+
     application_context: {
       brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
