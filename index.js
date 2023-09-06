@@ -405,7 +405,7 @@ app.get("/capture-order", async (req,res) => {
   })
 
   console.log("response")
-  console.log(response.purchase_units)
+  console.log(response)
 
   enviarMail();
   res.json({"estado":"pagado"})
