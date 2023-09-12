@@ -267,6 +267,7 @@ app.post("/pagar", async  (req, res) => {
     access_token:credencial[0].cliente_id,
   });
 
+  console.log(credencial[0].cliente_id)
 
   const nuevoProducto = await prisma.pagos.create({
     data:{
