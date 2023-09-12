@@ -268,7 +268,7 @@ app.post("/pagar", async  (req, res) => {
   });
   console.log(" credencial ")
   console.log(credencial)
-
+  console.log( "credencial[0].cliente_id")
   console.log( "credencial[0].cliente_id")
   console.log(credencial[0].cliente_id)
 
