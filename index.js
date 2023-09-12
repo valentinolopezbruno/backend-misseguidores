@@ -266,7 +266,10 @@ app.post("/pagar", async  (req, res) => {
   mercadopago.configure({
     access_token:credencial[0].cliente_id,
   });
+  console.log(" credencial ")
+  console.log(credencial)
 
+  console.log( "credencial[0].cliente_id")
   console.log(credencial[0].cliente_id)
 
   const nuevoProducto = await prisma.pagos.create({
