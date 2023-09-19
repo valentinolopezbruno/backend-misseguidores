@@ -368,10 +368,10 @@ app.post('/create-order-paypal', async (req, res) => {
     intent: "CAPTURE",
     purchase_units: [
       {
-        items:items,
         amount: {
           currency_code: "USD",
           value: precio,
+          items:items
         },
       },
     ],
