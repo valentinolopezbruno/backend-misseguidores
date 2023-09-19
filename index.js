@@ -368,10 +368,10 @@ app.post('/create-order-paypal', async (req, res) => {
     intent: "CAPTURE",
     purchase_units: [
       {
+        items:items,
         amount: {
           currency_code: "USD",
           value: precio,
-          items: items, 
         },
       },
     ],
@@ -421,29 +421,10 @@ app.post('/create-order-paypal', async (req, res) => {
 
 app.get("/capture-order", async (req, res) => {
   const { token } = req.query;
-  console.log("token");
-  console.log(token);
 
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-
-  const paypalApiUrl = 'https://api.paypal.com'; // Asegúrate de que PAYPAL_API incluya la versión de la API (por ejemplo, '/v2')
-  const apiUrl = `${paypalApiUrl}/v2/checkout/orders/${token}`;
-
-axios.get(apiUrl, {
-  headers: {
-    'Authorization': `Bearer ${credencial[1].cliente_secret}`, // Reemplaza con tu token de acceso de PayPal
-  },
-})
-  .then((response) => {
-    // Procesa la respuesta de PayPal para obtener los detalles de los productos
-    const productDetails = response.data.purchase_units[0].items;
-    console.log('Detalles de los productos:', productDetails);
-  })
-  .catch((error) => {
-    console.error('Error al obtener los detalles de los productos:', error);
-  });
 
   const response = await axios.post(
     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
@@ -456,11 +437,14 @@ axios.get(apiUrl, {
     }
   );
 
-  /* console.log("Respuesta completa de PayPal:");
+  console.log("Respuesta completa de PayPal:");
   console.log(response.data);
 
+  console.log("response.data.purchase_units[0]");
+  console.log(response.data.purchase_units[0]);
+
   console.log("Capturas:");
-console.log(response.data.purchase_units[0].payments.captures); */
+console.log(response.data.purchase_units[0].payments.captures);
 
   enviarMail();
   res.json({ estado: "pagado" });
