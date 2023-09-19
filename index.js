@@ -375,7 +375,7 @@ app.post('/create-order-paypal', async (req, res) => {
           currency_code: "USD",
           value: precio,
         },
-        items: items, // Agrega los ítems al objeto de la orden
+       /*  items: items,  */
       },
     ],
 
