@@ -334,9 +334,6 @@ app.post("/pagar", async  (req, res) => {
 app.post('/create-order-paypal', async (req, res) => {
   carrito = req.body
   const credencial = await prisma.credenciales.findMany()
-  console.log("credencial1")
-  console.log(credencial[1].cliente_id)
-  console.log(credencial[1].cliente_secret)
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
   var precio = 11
@@ -349,8 +346,6 @@ app.post('/create-order-paypal', async (req, res) => {
 
     for (let i = 0; i < carrito.productos.length; i++) {
       const producto = carrito.productos[i];
-      console.log("producto")
-      console.log(producto)
       const item = {
         name: producto.producto +
         " de " +
@@ -441,10 +436,13 @@ app.get("/capture-order", async (req,res) => {
     }
   })
 
-  console.log("response")
-  console.log(response)
-  console.log("response.data.purchase_units")
-  console.log(response.data.purchase_units)
+  /* console.log("response")
+  console.log(response) */
+  console.log("response.data.purchase_units.payments")
+  console.log(response.data.purchase_units.payment)
+
+  console.log("response.data.purchase_units.captures")
+  console.log(response.data.purchase_units.captures)
 
   enviarMail();
   res.json({"estado":"pagado"})
