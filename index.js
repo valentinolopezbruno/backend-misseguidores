@@ -399,10 +399,9 @@ app.post('/create-order-paypal', async (req, res) => {
 
 
 app.get("/capture-order", async (req,res) => {
-  const bodytoken = req
-  console.log("bodytoken")
-  console.log(bodytoken.data.purchase_units)
   const {token} = req.query;
+  console.log("token")
+  console.log(token)
 
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
@@ -416,6 +415,8 @@ app.get("/capture-order", async (req,res) => {
   })
 
   console.log("response")
+  console.log(response)
+  console.log("response.data.purchase_units")
   console.log(response.data.purchase_units)
 
   enviarMail();
