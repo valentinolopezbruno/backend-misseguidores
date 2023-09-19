@@ -442,6 +442,9 @@ app.get("/capture-order", async (req, res) => {
   console.log("Respuesta completa de PayPal:");
   console.log(response.data);
 
+  console.log("Capturas:");
+console.log(response.data.purchase_units[0].payments.captures);
+
   enviarMail();
   res.json({ estado: "pagado" });
 });
