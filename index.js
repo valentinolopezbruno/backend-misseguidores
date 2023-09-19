@@ -405,7 +405,7 @@ app.post('/create-order-paypal', async (req, res) => {
     params,
     {
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/json',
       },
       auth: {
         username: PAYPAL_API_CLIENT,
