@@ -372,14 +372,14 @@ app.post('/create-order-paypal', async (req, res) => {
       {
         amount: {
           currency_code: "USD",
-          value: precioTotal,
+          value: "333",
         },
         description:"SEGUIDOREZ"
       },
       {
         amount: {
           currency_code: "USD",
-          value: 1212,
+          value: "111",
         },
         description:"JUA JUAN"
       },
