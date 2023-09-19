@@ -364,7 +364,7 @@ app.post('/create-order-paypal', async (req, res) => {
     }
 
 /*   console.log("entra") */
-  const order = {
+/*   const order = {
     intent: "CAPTURE",
     purchase_units: [
       {
@@ -382,6 +382,42 @@ app.post('/create-order-paypal', async (req, res) => {
       user_action: "PAY_NOW",
       return_url: `https://misseguidores.com/success`,
       cancel_url: `https://misseguidores.com/failure`,
+    },
+  }; */
+  const order = {
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        amount: {
+          currency_code: "USD",
+          value: "3011.00", // El precio total de la orden
+        },
+        items: [
+          {
+            name: "Producto 1",
+            quantity: 2,
+            unit_amount: {
+              currency_code: "USD",
+              value: "500.00", // Precio por unidad del producto 1
+            },
+          },
+          {
+            name: "Producto 2",
+            quantity: 1,
+            unit_amount: {
+              currency_code: "USD",
+              value: "1000.00", // Precio por unidad del producto 2
+            },
+          },
+        ],
+      },
+    ],
+    application_context: {
+      brand_name: "misseguidores.com",
+      landing_page: "NO_PREFERENCE",
+      user_action: "PAY_NOW",
+      return_url: "https://misseguidores.com/success",
+      cancel_url: "https://misseguidores.com/failure",
     },
   };
 
