@@ -333,7 +333,9 @@ app.post("/pagar", async  (req, res) => {
 /* --------------------------------- PAYPAL --------------------------------------------------- */
 app.post('/create-order-paypal', async (req, res) => {
   carrito = req.body
-  const credencial = await prisma.credenciales.findMany();
+  const credencial = await prisma.credenciales.findMany()
+  console.log("credencial")
+  console.log(credencial)
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
   var precio = 0
