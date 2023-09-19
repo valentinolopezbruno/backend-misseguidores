@@ -52,6 +52,14 @@ setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://misseguidores.com');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
 /* ---------------------------------CONFIG  PAYPAL --------------------------------------------------- */
  const PAYPAL_API = 'https://api-m.sandbox.paypal.com'
 /*  const PAYPAL_API_CLIENT = 'ARwiqPiwoL90ElSKqkcFT5iiXF8pkkK55IMVVSIg3m1zwL_OdGfmNycOQWHzVWxFoQ48Oa8TYAvn7BMN'
