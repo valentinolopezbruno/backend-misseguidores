@@ -390,7 +390,7 @@ app.post('/create-order-paypal', async (req, res) => {
       {
         amount: {
           currency_code: "USD",
-          value: precio, // El precio total de la orden
+          value: precioTotal, // El precio total de la orden
         },
         items: items, // Aquí debes incluir la matriz de elementos
       },
