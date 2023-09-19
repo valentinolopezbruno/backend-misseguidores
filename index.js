@@ -336,10 +336,12 @@ app.post('/create-order-paypal', async (req, res) => {
   const credencial = await prisma.credenciales.findMany()
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-  var precioTotal = 0
+  var precioTotal = 0;
+
+
 
   for (let i = 0; i < carrito.productos.length; i++) {
-      precioTotal = carrito.productos[i].precio + precio
+      precioTotal = carrito.productos[i].precio + precioTotal
     };
 
     const items = [];
