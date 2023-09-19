@@ -336,32 +336,32 @@ app.post('/create-order-paypal', async (req, res) => {
   const credencial = await prisma.credenciales.findMany()
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-  var precio = 11
+  var precioTotal = 0
 
   for (let i = 0; i < carrito.productos.length; i++) {
-      precio = carrito.productos[i].precio + precio
+      precioTotal = carrito.productos[i].precio + precio
     };
 
     const items = [];
 
     for (let i = 0; i < carrito.productos.length; i++) {
-      const producto = carrito.productos[i];
-      const item = {
-        name: producto.producto +
+      var item = {
+        name: carrito.productos[i].producto +
         " de " +
-        producto.redSocial +
+        carrito.productos[i].redSocial +
         " x " +
-        producto.cantidad + 
+        carrito.productos[i].cantidad + 
         " al usuario " + 
-        producto.usuario,
+        carrito.productos[i].usuario,
         quantity: 1,
         unit_amount: {
           currency_code: "USD", // Cambia a la moneda adecuada si es necesario
-          value: producto.precio,
+          value: carrito.productos[i].precio,
         },
       };
       items.push(item);
     }
+    console.log(items)
 
 /*   console.log("entra") */
 /*   const order = {
@@ -370,7 +370,7 @@ app.post('/create-order-paypal', async (req, res) => {
       {
         amount: {
           currency_code: "USD",
-          value: precio,
+          value: precioTotal,
           items:items
         },
       },
@@ -390,26 +390,9 @@ app.post('/create-order-paypal', async (req, res) => {
       {
         amount: {
           currency_code: "USD",
-          value: "3011.00", // El precio total de la orden
+          value: precio, // El precio total de la orden
         },
-        items: [
-          {
-            name: "Producto 1",
-            quantity: 2,
-            unit_amount: {
-              currency_code: "USD",
-              value: "500.00", // Precio por unidad del producto 1
-            },
-          },
-          {
-            name: "Producto 2",
-            quantity: 1,
-            unit_amount: {
-              currency_code: "USD",
-              value: "1000.00", // Precio por unidad del producto 2
-            },
-          },
-        ],
+        items: items, // Aquí debes incluir la matriz de elementos
       },
     ],
     application_context: {
