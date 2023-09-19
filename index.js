@@ -363,16 +363,23 @@ app.post('/create-order-paypal', async (req, res) => {
     }
     console.log(items)
 
-/*   console.log("entra") */
-/*   const order = {
+
+  const order = {
     intent: "CAPTURE",
     purchase_units: [
       {
         amount: {
           currency_code: "USD",
           value: precioTotal,
-          items:items
         },
+        description:"SEGUIDOREZ"
+      },
+      {
+        amount: {
+          currency_code: "USD",
+          value: 1212,
+        },
+        description:"JUA JUAN"
       },
     ],
 
@@ -383,26 +390,8 @@ app.post('/create-order-paypal', async (req, res) => {
       return_url: `https://misseguidores.com/success`,
       cancel_url: `https://misseguidores.com/failure`,
     },
-  }; */
-  const order = {
-    intent: "CAPTURE",
-    purchase_units: [
-      {
-        amount: {
-          currency_code: "USD",
-          value: precioTotal, // El precio total de la orden
-        },
-        items: items, // Aquí debes incluir la matriz de elementos
-      },
-    ],
-    application_context: {
-      brand_name: "misseguidores.com",
-      landing_page: "NO_PREFERENCE",
-      user_action: "PAY_NOW",
-      return_url: "https://misseguidores.com/success",
-      cancel_url: "https://misseguidores.com/failure",
-    },
   };
+ 
 
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
