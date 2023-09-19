@@ -339,7 +339,7 @@ app.post('/create-order-paypal', async (req, res) => {
   console.log(credencial[1].cliente_secret)
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-  var precio = 0
+  var precio = 11
 
   for (let i = 0; i < carrito.productos.length; i++) {
       precio = carrito.productos[i].precio + precio
