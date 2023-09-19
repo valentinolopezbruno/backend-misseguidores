@@ -363,30 +363,6 @@ app.post('/create-order-paypal', async (req, res) => {
       };
       items.push(item);
     }
-    console.log(items)
-
-
-  const order = {
-    intent: "CAPTURE",
-    purchase_units: [
-      {
-        amount: {
-          currency_code: "USD",
-          value: 333,
-        },
-        items:items
-      },
-    ],
-
-    application_context: {
-      brand_name: "misseguidores.com",
-      landing_page: "NO_PREFERENCE",
-      user_action: "PAY_NOW",
-      return_url: `https://misseguidores.com/success`,
-      cancel_url: `https://misseguidores.com/failure`,
-    },
-  };
- 
 
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
@@ -404,6 +380,26 @@ app.post('/create-order-paypal', async (req, res) => {
         username: PAYPAL_API_CLIENT,
         password: PAYPAL_API_SECRET,
       },
+      body: JSON.stringify({
+          intent: "CAPTURE",
+          purchase_units: [
+            {
+              amount: {
+                currency_code: "USD",
+                value: 333,
+              },
+              items:items
+            },
+          ],
+      
+          application_context: {
+            brand_name: "misseguidores.com",
+            landing_page: "NO_PREFERENCE",
+            user_action: "PAY_NOW",
+            return_url: `https://misseguidores.com/success`,
+            cancel_url: `https://misseguidores.com/failure`,
+          },
+      })
     }
   );
 
