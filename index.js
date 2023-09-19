@@ -342,6 +342,22 @@ app.post('/create-order-paypal', async (req, res) => {
       precio = carrito.productos[i].precio + precio
     };
 
+    const items = [];
+
+    for (let i = 0; i < carrito.productos.length; i++) {
+      const producto = carrito.productos[i];
+      const item = {
+        name: producto.nombre,
+        description: producto.descripcion,
+        quantity: producto.cantidad,
+        unit_amount: {
+          currency_code: "USD", // Cambia a la moneda adecuada si es necesario
+          value: producto.precio,
+        },
+      };
+      items.push(item);
+    }
+
 /*   console.log("entra") */
   const order = {
     intent: "CAPTURE",
@@ -351,6 +367,7 @@ app.post('/create-order-paypal', async (req, res) => {
           currency_code: "USD",
           value: precio,
         },
+        items: items,
       },
     ],
 
