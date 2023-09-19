@@ -419,34 +419,35 @@ app.post('/create-order-paypal', async (req, res) => {
   }
 });
 
-
-app.get("/capture-order", async (req,res) => {
-  const {token} = req.query;
-  console.log("token")
-  console.log(token)
+app.get("/capture-order", async (req, res) => {
+  const { token } = req.query;
+  console.log("token");
+  console.log(token);
 
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
 
-  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
-    auth:{
-      username:PAYPAL_API_CLIENT,
-      password:PAYPAL_API_SECRET
+  const response = await axios.post(
+    `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
+    {},
+    {
+      auth: {
+        username: PAYPAL_API_CLIENT,
+        password: PAYPAL_API_SECRET,
+      },
     }
-  })
+  );
 
-  /* console.log("response")
-  console.log(response) */
-  console.log("response.data.purchase_units.payments")
-  console.log(response.data.purchase_units.payment)
+  console.log("response.data.purchase_units[0].payments");
+  console.log(response.data.purchase_units[0].payments);
 
-  console.log("response.data.purchase_units.captures")
-  console.log(response.data.purchase_units.captures)
+  console.log("response.data.purchase_units[0].captures");
+  console.log(response.data.purchase_units[0].captures);
 
   enviarMail();
-  res.json({"estado":"pagado"})
-})
+  res.json({ estado: "pagado" });
+});
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 
