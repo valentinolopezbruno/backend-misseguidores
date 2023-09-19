@@ -10,7 +10,14 @@ const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require("uuid");
 const axios = require('axios')
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: 'https://misseguidores.com',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Habilitar cookies y credenciales (si es necesario)
+};
+app.use(cors(corsOptions));
+
 app.use("/imagenes", express.static(path.join(__dirname, "./imagenes")));
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -52,12 +59,7 @@ setInterval(() => {
   fechaActual = fecha.getMinutes();
 }, 3 * 60 * 1000);
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://misseguidores.com');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+
 
 
 /* ---------------------------------CONFIG  PAYPAL --------------------------------------------------- */
