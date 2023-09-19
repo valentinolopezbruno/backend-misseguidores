@@ -439,12 +439,8 @@ app.get("/capture-order", async (req, res) => {
     }
   );
 
-  console.log("response.data.purchase_units[0].captures");
-  console.log(response.data.purchase_units[0].captures);
-  
-  // Opción alternativa para acceder a la primera captura si es relevante
-  console.log("Primera captura:");
-  console.log(response.data.purchase_units[0].captures[0]);
+  console.log("Respuesta completa de PayPal:");
+  console.log(response.data);
 
   enviarMail();
   res.json({ estado: "pagado" });
