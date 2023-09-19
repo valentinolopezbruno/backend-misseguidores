@@ -433,7 +433,7 @@ app.get("/capture-order", async (req, res) => {
 
 axios.get(apiUrl, {
   headers: {
-    'Authorization': `Bearer ${TU_TOKEN_DE_ACCESO_PAYPAL}`, // Reemplaza con tu token de acceso de PayPal
+    'Authorization': `Bearer ${credencial[1].cliente_secret}`, // Reemplaza con tu token de acceso de PayPal
   },
 })
   .then((response) => {
