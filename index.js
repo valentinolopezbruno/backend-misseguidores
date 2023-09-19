@@ -12,7 +12,7 @@ const axios = require('axios')
 app.use(express.json());
 
 const corsOptions = {
-  origin: 'https://misseguidores.com',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Habilitar cookies y credenciales (si es necesario)
 };
