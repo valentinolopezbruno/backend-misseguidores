@@ -428,6 +428,23 @@ app.get("/capture-order", async (req, res) => {
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
 
+  const paypalApiUrl = 'https://api.paypal.com'; // Asegúrate de que PAYPAL_API incluya la versión de la API (por ejemplo, '/v2')
+  const apiUrl = `${paypalApiUrl}/v2/checkout/orders/${token}`;
+
+axios.get(apiUrl, {
+  headers: {
+    'Authorization': `Bearer ${TU_TOKEN_DE_ACCESO_PAYPAL}`, // Reemplaza con tu token de acceso de PayPal
+  },
+})
+  .then((response) => {
+    // Procesa la respuesta de PayPal para obtener los detalles de los productos
+    const productDetails = response.data.purchase_units[0].items;
+    console.log('Detalles de los productos:', productDetails);
+  })
+  .catch((error) => {
+    console.error('Error al obtener los detalles de los productos:', error);
+  });
+
   const response = await axios.post(
     `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
     {},
@@ -439,11 +456,11 @@ app.get("/capture-order", async (req, res) => {
     }
   );
 
-  console.log("Respuesta completa de PayPal:");
+  /* console.log("Respuesta completa de PayPal:");
   console.log(response.data);
 
   console.log("Capturas:");
-console.log(response.data.purchase_units[0].payments.captures);
+console.log(response.data.purchase_units[0].payments.captures); */
 
   enviarMail();
   res.json({ estado: "pagado" });
