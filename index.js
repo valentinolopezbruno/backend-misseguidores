@@ -350,13 +350,13 @@ app.post('/create-order-paypal', async (req, res) => {
     for (let i = 0; i < carrito.productos.length; i++) {
       const producto = carrito.productos[i];
       const item = {
-        name: producto[i].producto +
+        name: producto.producto +
         " de " +
-        producto[i].redSocial +
+        producto.redSocial +
         " x " +
-        producto[i].cantidad + 
+        producto.cantidad + 
         " al usuario " + 
-        producto[i].usuario,
+        producto.usuario,
         quantity: 1,
         unit_amount: {
           currency_code: "USD", // Cambia a la moneda adecuada si es necesario
