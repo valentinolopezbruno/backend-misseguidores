@@ -75,7 +75,7 @@ enviarMail = async (productos) => {
     port: 587,
     auth: {
       user: 'vaalen1lopez@gmail.com',
-      pass:'ttkgxsvuftobpyio',
+      pass:'wryq zijk iqic cxtf',
     },
   };
 
@@ -105,7 +105,7 @@ enviarMailPaypal = async (productos) => {
     port: 587,
     auth: {
       user: 'vaalen1lopez@gmail.com',
-      pass:'ttkgxsvuftobpyio',
+      pass:"opiy usfd syqo akrn"
     },
   };
 
