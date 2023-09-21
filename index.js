@@ -341,27 +341,23 @@ app.post('/create-order-paypal', async (req, res) => {
   for (let i = 0; i < carrito.productos.length; i++) {
     precioTotal = carrito.productos[i].precio + precioTotal
   };
-/* 
-  const items = [];
+
+  var texto = '';
 
   for (let i = 0; i < carrito.productos.length; i++) {
-    var item = {
-      name: carrito.productos[i].producto +
+    texto = texto + 
+      carrito.productos[i].producto +
       " de " +
       carrito.productos[i].redSocial +
       " x " +
       carrito.productos[i].cantidad + 
       " al usuario " + 
-      carrito.productos[i].usuario,
-      quantity: 1,
-      unit_amount: {
-        currency_code: "USD", // Cambia a la moneda adecuada si es necesario
-        value: carrito.productos[i].precio,
-      },
-    };
-    items.push(item);
+      carrito.productos[i].usuario + 
+      "por $" + 
+       carrito.productos[i].precio +
+      ", "
   }
-  console.log(items) */
+
 
   const order = {
     intent: "CAPTURE",
@@ -427,7 +423,7 @@ app.post('/create-order-paypal', async (req, res) => {
             data: {
               token:response.data.id,
               estado:0,
-              productos:"asd"
+              productos: texto
             },
           });
           contador = contador + 1;
