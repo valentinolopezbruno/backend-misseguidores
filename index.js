@@ -411,14 +411,13 @@ app.post('/create-order-paypal', async (req, res) => {
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
 
-
-
       // Busco una orden/token con el id de la orden/token creada
       const buscarToken = await prisma.pagos_paypal.findMany();
       // Creo un contador para ver si ya hay alguna orden en la bd con ese token
       var contador = 0;
       // Recorro todas las ordenes en busca de igualidad de token
       for (let i = 0; i < buscarToken.length; i++) {
+        console.log("buscando...")
         if(buscarToken[i].token == response.data.id){
           contador = contador + 1;
         }
