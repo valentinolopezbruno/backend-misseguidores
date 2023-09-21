@@ -426,7 +426,8 @@ app.post('/create-order-paypal', async (req, res) => {
           const pagopaypal = await prisma.pagos_paypal.create({
             data: {
               token:response.data.id,
-              estado:0
+              estado:0,
+              productos:"asd"
             },
           });
           contador = contador + 1;
