@@ -79,7 +79,7 @@ enviarMail = async (productos) => {
     },
   };
 
-  var texto = `Realizaste una venta de `
+  var texto = `Realizaste una venta en Mercadopago de `
 
   for (let i = 0; i < productos.length; i++) {
     texto = texto + productos[i].title + ", "
@@ -97,6 +97,35 @@ enviarMail = async (productos) => {
   const info = await transport.sendMail(mensaje);
 
 };
+
+
+enviarMailPaypal = async (productos) => {
+  const config = {
+    host: 'smtp.gmail.com',
+    port: 587,
+    auth: {
+      user: 'vaalen1lopez@gmail.com',
+      pass:'ttkgxsvuftobpyio',
+    },
+  };
+
+  var texto = `Realizaste una venta en Paypal de ${productos}`
+
+  const transport = nodemailer.createTransport(config);
+
+  const mensaje = {
+    from: 'vaalen1lopez@gmail.com',
+    to: 'vaalen1lopez@gmail.com',
+    subject: 'Correo de Prueba',
+    text:`${texto}`,
+  };
+
+  const info = await transport.sendMail(mensaje);
+
+};
+
+
+
 
 /* ---------------------------------CONFIG  IMAGENES --------------------------------------------------- */
 
@@ -449,21 +478,29 @@ app.get("/capture-order", async (req,res) => {
   if(response.data.status == 'COMPLETED'){
     //Ahora hago lo mismo que arriba, bsco el token en la bd y si esta pagado entonces envio el email
    const buscarToken = await prisma.pagos_paypal.findMany();
+   // Creo un contador para ver si el estado de la orden es 0 y si no es asi le sumo 1 mas adelante
+  var contadorEstado = 0;
    for (let i = 0; i < buscarToken.length; i++) {
     console.log("buscando...")
     if(buscarToken[i].token == token){
       // Guardo el id de la orden para cambiar el estado
       var idOrden = buscarToken[i].id
+      var productos =  buscarToken[i].productos
+      if(buscarToken[i].estado == 1){
+        contadorEstado = contadorEstado + 1;
+      }
     }
   };
-  //Cabio el estado de 0 a 1, osea pagado.
+  if(contadorEstado == 0){
+      //Cabio el estado de 0 a 1, osea pagado.
   const ordenActualizada = await prisma.pagos_paypal.update({
     where:{id:idOrden},
     data:{estado:1}
   })
     console.log("enviando mail.")
-    /* enviarMail(); */
+    enviarMailPaypal(productos)
     res.json({"estado":"pagado"})
+  }
   }
 })
 
