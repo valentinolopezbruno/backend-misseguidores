@@ -369,7 +369,7 @@ app.post('/create-order-paypal', async (req, res) => {
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
 
-  const {
+ /*  const {
     data: {access_token}
   } = await axios.post(
     "https://api-m.sandbox.paypal.com/v1/oauth2/token",
@@ -383,42 +383,29 @@ app.post('/create-order-paypal', async (req, res) => {
         password: PAYPAL_API_SECRET,
       },
     }
-  );
+  ); */
 
-  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders`, {
+  const response = fetch('https://api-m.sandbox.paypal.com/v2/checkout/orders', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+        'PayPal-Request-Id': '7b92603e-77ed-4896-8e78-5dea2050476a',
+        'Authorization': ` Bearer ${access_token}` 
     },
-    body: JSON.stringify({
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          amount: {
-            currency_code: "USD",
-            value: 333,
-          },
-          items:items
-        },
-      ],
-  
-      application_context: {
-        brand_name: "misseguidores.com",
-        landing_page: "NO_PREFERENCE",
-        user_action: "PAY_NOW",
-        return_url: `https://misseguidores.com/success`,
-        cancel_url: `https://misseguidores.com/failure`,
-      },
-  })
-  });
+    body: JSON.stringify({ "intent": "CAPTURE", "purchase_units": [ { "reference_id": "d9f80740-38f0-11e8-b467-0ed5f89f718b", "amount": { "currency_code": "USD", "value": "100.00" } } ], "payment_source": { "paypal": { "experience_context": { "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED", "brand_name": "EXAMPLE INC", "locale": "en-US", "landing_page": "LOGIN", "shipping_preference": "SET_PROVIDED_ADDRESS", "user_action": "PAY_NOW", "return_url": "https://misseguidores.com/succes", "cancel_url": "https://misseguidores.com/failure" } } } })
+});
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      /* console.log(response.data); */
+      console.log(response.id);
       res.json({"link":response.data.links[i].href});
    }
   }
 });
+
+
+
+
 
 app.get("/capture-order", async (req, res) => {
   const { token } = req.query;
