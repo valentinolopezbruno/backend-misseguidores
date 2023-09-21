@@ -19,10 +19,12 @@ model pagos {
   estado Int
 }
 
+
 model pagos_paypal {
-  id        String @id @db.VarChar(255)
+  id        Int    @id @default(autoincrement())
   estado    Int
   productos String @db.VarChar(250)
+  token     String @db.VarChar(255)
 }
 
 
