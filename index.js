@@ -338,38 +338,55 @@ app.post('/create-order-paypal', async (req, res) => {
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
   var precioTotal = 0;
 
-
+  // Calculo el precio total 
+  for (let i = 0; i < carrito.productos.length; i++) {
+    precioTotal = carrito.productos[i].precio + precioTotal
+  };
+/* 
+  const items = [];
 
   for (let i = 0; i < carrito.productos.length; i++) {
-      precioTotal = carrito.productos[i].precio + precioTotal
+    var item = {
+      name: carrito.productos[i].producto +
+      " de " +
+      carrito.productos[i].redSocial +
+      " x " +
+      carrito.productos[i].cantidad + 
+      " al usuario " + 
+      carrito.productos[i].usuario,
+      quantity: 1,
+      unit_amount: {
+        currency_code: "USD", // Cambia a la moneda adecuada si es necesario
+        value: carrito.productos[i].precio,
+      },
     };
+    items.push(item);
+  }
+  console.log(items) */
 
-    const items = [];
-
-    for (let i = 0; i < carrito.productos.length; i++) {
-      var item = {
-        name: carrito.productos[i].producto +
-        " de " +
-        carrito.productos[i].redSocial +
-        " x " +
-        carrito.productos[i].cantidad + 
-        " al usuario " + 
-        carrito.productos[i].usuario,
-        quantity: 1,
-        unit_amount: {
-          currency_code: "USD", // Cambia a la moneda adecuada si es necesario
-          value: carrito.productos[i].precio,
+  const order = {
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        amount: {
+          currency_code: "USD",
+          value: precioTotal,
         },
-      };
-      items.push(item);
-    }
-    console.log(items)
- 
+      },
+    ],
+    application_context: {
+      brand_name: "misseguidores.com",
+      landing_page: "NO_PREFERENCE",
+      user_action: "PAY_NOW",
+      return_url: `http://localhost:4200/success`,
+      cancel_url: `http://localhost:4200/failure`,
+    },
+  };
 
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
 
- /*  const {
+  const {
     data: {access_token}
   } = await axios.post(
     "https://api-m.sandbox.paypal.com/v1/oauth2/token",
@@ -383,60 +400,45 @@ app.post('/create-order-paypal', async (req, res) => {
         password: PAYPAL_API_SECRET,
       },
     }
-  ); */
+  );
 
-  const response = fetch('https://api-m.sandbox.paypal.com/v2/checkout/orders', {
-    method: 'POST',
+  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders`, order, {
     headers: {
-        'Content-Type': 'application/json',
-        'PayPal-Request-Id': '7b92603e-77ed-4896-8e78-5dea2050476a',
-        'Authorization': ` Bearer ${credencial[1].cliente_secret}` 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${access_token}`,
     },
-    body: JSON.stringify({ "intent": "CAPTURE", "purchase_units": [ { "reference_id": "d9f80740-38f0-11e8-b467-0ed5f89f718b", "amount": { "currency_code": "USD", "value": "100.00" } } ], "payment_source": { "paypal": { "experience_context": { "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED", "brand_name": "EXAMPLE INC", "locale": "en-US", "landing_page": "LOGIN", "shipping_preference": "SET_PROVIDED_ADDRESS", "user_action": "PAY_NOW", "return_url": "https://misseguidores.com/succes", "cancel_url": "https://misseguidores.com/failure" } } } })
-});
+  });
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      console.log(response.id);
+      console.log("response.data.id");
+      console.log(response.data.id);
       res.json({"link":response.data.links[i].href});
    }
   }
 });
 
 
-
-
-
-app.get("/capture-order", async (req, res) => {
-  const { token } = req.query;
-
+app.get("/capture-order", async (req,res) => {
+  const {token} = req.query;
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
+  console.log("token")
+  console.log(token)
 
-  const response = await axios.post(
-    `${PAYPAL_API}/v2/checkout/orders/${token}/capture`,
-    {},
-    {
-      auth: {
-        username: PAYPAL_API_CLIENT,
-        password: PAYPAL_API_SECRET,
-      },
+  const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
+    auth:{
+      username:PAYPAL_API_CLIENT,
+      password:PAYPAL_API_SECRET
     }
-  );
+  })
 
-  console.log("Respuesta completa de PayPal:");
-  console.log(response.data);
-
-  console.log("response.data.purchase_units[0]");
-  console.log(response.data.purchase_units[0]);
-
-  console.log("Capturas:");
-console.log(response.data.purchase_units[0].payments.captures);
-
+  console.log("pagado")
   enviarMail();
-  res.json({ estado: "pagado" });
-});
+  res.json({"estado":"pagado"})
+})
+
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 
