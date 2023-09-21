@@ -353,7 +353,7 @@ app.post('/create-order-paypal', async (req, res) => {
       carrito.productos[i].cantidad + 
       " al usuario " + 
       carrito.productos[i].usuario + 
-      "por $" + 
+      " por $" + 
        carrito.productos[i].precio +
       ", "
   }
@@ -413,7 +413,6 @@ app.post('/create-order-paypal', async (req, res) => {
       var contador = 0;
       // Recorro todas las ordenes en busca de igualidad de token
       for (let i = 0; i < buscarToken.length; i++) {
-        console.log("buscando...")
         if(buscarToken[i].token == response.data.id){
           contador = contador + 1;
         }
@@ -427,14 +426,8 @@ app.post('/create-order-paypal', async (req, res) => {
             },
           });
           contador = contador + 1;
-          console.log("pago creado en bd: ", pagopaypal)
         }
       };
-      
-
-
-
-
       res.json({"link":response.data.links[i].href});
    }
   }
@@ -446,19 +439,32 @@ app.get("/capture-order", async (req,res) => {
   const credencial = await prisma.credenciales.findMany();
   var PAYPAL_API_CLIENT = credencial[1].cliente_id;
   var PAYPAL_API_SECRET = credencial[1].cliente_secret;
-  console.log("token")
-  console.log(token)
-
+  //Traigo la info de la orden para ver si pago o no
   const response = await axios.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {}, {
     auth:{
       username:PAYPAL_API_CLIENT,
       password:PAYPAL_API_SECRET
     }
   })
-  console.log("response.data")
-  console.log(response.data)
-  enviarMail();
-  res.json({"estado":"pagado"})
+  if(response.data.status == 'COMPLETED'){
+    //Ahora hago lo mismo que arriba, bsco el token en la bd y si esta pagado entonces envio el email
+   const buscarToken = await prisma.pagos_paypal.findMany();
+   for (let i = 0; i < buscarToken.length; i++) {
+    console.log("buscando...")
+    if(buscarToken[i].token == token){
+      // Guardo el id de la orden para cambiar el estado
+      var idOrden = buscarToken[i].id
+    }
+  };
+  //Cabio el estado de 0 a 1, osea pagado.
+  const ordenActualizada = await prisma.pagos_paypal.update({
+    where:{id:idOrden},
+    data:{estado:1}
+  })
+    console.log("enviando mail.")
+    /* enviarMail(); */
+    res.json({"estado":"pagado"})
+  }
 })
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
