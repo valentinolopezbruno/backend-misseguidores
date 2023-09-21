@@ -410,8 +410,20 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      console.log("response.data.id");
-      console.log(response.data.id);
+      const buscarToken = await prisma.pagos_paypal.findUnique({
+        where: {
+          token:response.data.id,
+        }
+      });
+      if(!buscarToken){
+        const pagopaypal = await prisma.pagos_paypal.create({
+          data: {
+            token:response.data.id,
+            estado:0
+          },
+        });
+        console.log("pago creado en bd: ", pagopaypal)
+      }
       res.json({"link":response.data.links[i].href});
    }
   }

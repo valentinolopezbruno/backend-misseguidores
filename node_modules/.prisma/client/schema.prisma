@@ -6,7 +6,6 @@ datasource db {
   provider = "mysql"
   url      = "mysql://root:7MUIGUMhnTB4vqmjgyK6@containers-us-west-63.railway.app:6745/railway"
 }
-
 model credenciales {
   id             Int    @id @default(autoincrement())
   pasarela       String @db.VarChar(255)
@@ -17,6 +16,13 @@ model credenciales {
 model pagos {
   id     Int @id @default(autoincrement())
   estado Int
+}
+
+model pagos_paypal {
+  id        Int    @id @default(autoincrement())
+  token     String @db.VarChar(255)
+  estado    Int
+  productos String @db.VarChar(250)
 }
 
 model producto_cantidad {
@@ -52,3 +58,4 @@ model usuarios {
   token      String @db.VarChar(255)
   expiracion String @db.VarChar(255)
 }
+
