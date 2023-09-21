@@ -410,7 +410,6 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
-      console.log("pagado")
       console.log("response.data.id");
       console.log(response.data.id);
       res.json({"link":response.data.links[i].href});
@@ -433,8 +432,8 @@ app.get("/capture-order", async (req,res) => {
       password:PAYPAL_API_SECRET
     }
   })
-
-  console.log("pagado")
+  console.log("response.data")
+  console.log(response.data)
   enviarMail();
   res.json({"estado":"pagado"})
 })
