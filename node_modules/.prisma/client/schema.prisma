@@ -20,11 +20,11 @@ model pagos {
 }
 
 model pagos_paypal {
-  id        Int    @id @default(autoincrement())
-  token     String @db.VarChar(255)
+  id        String @id @db.VarChar(255)
   estado    Int
   productos String @db.VarChar(250)
 }
+
 
 model producto_cantidad {
   id         Int @id @default(autoincrement())

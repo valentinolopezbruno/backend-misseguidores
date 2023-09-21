@@ -410,15 +410,17 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
+      // Busco una orden/token con el id de la orden/token creada
       const buscarToken = await prisma.pagos_paypal.findUnique({
         where: {
-          token:response.data.id,
+          id:response.data.id,
         }
       });
+      //Si no lo encuentro la creo
       if(!buscarToken){
         const pagopaypal = await prisma.pagos_paypal.create({
           data: {
-            token:response.data.id,
+            id:response.data.id,
             estado:0
           },
         });
