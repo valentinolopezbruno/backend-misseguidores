@@ -270,8 +270,7 @@ app.post("/webhook", async (req, res) => {
 app.post("/pagar", async  (req, res) => {
   /* CREO EN LA BASE DE DATOS UN NUEVO PAGO CON ESTADO SIN PAGAR */
   const credencial = await prisma.credenciales.findMany()
-/*   console.log("credencial")
-  console.log(credencial[0].cliente_id) */
+
 
   // Agrega credenciales
   mercadopago.configure({
@@ -378,8 +377,8 @@ app.post('/create-order-paypal', async (req, res) => {
       brand_name: "misseguidores.com",
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
-      return_url: `http://localhost:4200/success`,
-      cancel_url: `http://localhost:4200/failure`,
+      return_url: `https://misseguidores.com/success`,
+      cancel_url: `https://misseguidores.com/failure`,
     },
   };
 
@@ -411,6 +410,7 @@ app.post('/create-order-paypal', async (req, res) => {
 
   for (let i = 0; i < response.data.links.length; i++) {
     if(response.data.links[i].rel === "approve"){
+      console.log("pagado")
       console.log("response.data.id");
       console.log(response.data.id);
       res.json({"link":response.data.links[i].href});
@@ -438,7 +438,6 @@ app.get("/capture-order", async (req,res) => {
   enviarMail();
   res.json({"estado":"pagado"})
 })
-
 
 /* --------------------------------- PRODUCTOS --------------------------------------------------- */
 
