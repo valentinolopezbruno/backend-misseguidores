@@ -25,7 +25,7 @@ const prisma = new PrismaClient();
 
 const PuertoAPP = "http://localhost:4200";
 
-const PUERTO =  process.env.PORT || 300
+const PUERTO =  process.env.PORT || 3001
 
 const connection = mysql.createConnection({
   host: "containers-us-west-63.railway.app",
@@ -74,7 +74,7 @@ enviarMail = async (productos) => {
     host: 'smtp.gmail.com',
     port: 587,
     auth: {
-      user: 'vaalen1lopez@gmail.com',
+      user: 'marioperez1234ma@gmail.com',
       pass:'wryq zijk iqic cxtf',
     },
   };
@@ -88,9 +88,9 @@ enviarMail = async (productos) => {
   const transport = nodemailer.createTransport(config);
 
   const mensaje = {
-    from: 'vaalen1lopez@gmail.com',
-    to: 'vaalen1lopez@gmail.com',
-    subject: 'Correo de Prueba',
+    from: 'marioperez1234ma@gmail.com',
+    to: 'marioperez1234ma@gmail.com',
+    subject: 'Venta en MercadoPago',
     text:`${texto}`,
   };
 
@@ -104,7 +104,7 @@ enviarMailPaypal = async (productos) => {
     host: 'smtp.gmail.com',
     port: 587,
     auth: {
-      user: 'vaalen1lopez@gmail.com',
+      user: 'marioperez1234ma@gmail.com',
       pass:"opiy usfd syqo akrn"
     },
   };
@@ -114,9 +114,9 @@ enviarMailPaypal = async (productos) => {
   const transport = nodemailer.createTransport(config);
 
   const mensaje = {
-    from: 'vaalen1lopez@gmail.com',
-    to: 'vaalen1lopez@gmail.com',
-    subject: 'Correo de Prueba',
+    from: 'marioperez1234ma@gmail.com',
+    to: 'marioperez1234ma@gmail.com',
+    subject: 'Venta en Paypal',
     text:`${texto}`,
   };
 
@@ -481,7 +481,6 @@ app.get("/capture-order", async (req,res) => {
    // Creo un contador para ver si el estado de la orden es 0 y si no es asi le sumo 1 mas adelante
   var contadorEstado = 0;
    for (let i = 0; i < buscarToken.length; i++) {
-    console.log("buscando...")
     if(buscarToken[i].token == token){
       // Guardo el id de la orden para cambiar el estado
       var idOrden = buscarToken[i].id
@@ -497,7 +496,6 @@ app.get("/capture-order", async (req,res) => {
     where:{id:idOrden},
     data:{estado:1}
   })
-    console.log("enviando mail.")
     enviarMailPaypal(productos)
     res.json({"estado":"pagado"})
   }
@@ -705,6 +703,23 @@ app.post("/social", upload.single("file"), async (req, res) => {
   } catch (error) {
     console.error("Error al crear red social:", error);
     res.status(500).send("Error al crear red social");
+  }
+});
+
+app.post("/social", async (req, res) => {
+  const { id } = req.body; // Asegúrate de extraer el valor del cuerpo de la solicitud correctamente
+
+  try {
+    const redEliminada = await prisma.social.delete({
+      where: {
+        id: id,
+      },
+    });
+    console.log(redEliminada);
+    res.send("RED eliminado correctamente");
+  } catch (error) {
+    console.error("Error al eliminar RED:", error);
+    res.status(500).send("Error al eliminar el RED");
   }
 });
 /* --------------------------------- CREDENCIALES --------------------------------------------------- */
