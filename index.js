@@ -706,7 +706,7 @@ app.post("/social", upload.single("file"), async (req, res) => {
   }
 });
 
-app.post("/social", async (req, res) => {
+app.post("/socialDelete", async (req, res) => {
   const { id } = req.body; // Asegúrate de extraer el valor del cuerpo de la solicitud correctamente
 
   try {
