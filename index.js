@@ -70,6 +70,7 @@ setInterval(() => {
 /* ---------------------------------CONFIG  NODEMAILER --------------------------------------------------- */
 
 enviarMail = async (productos) => {
+  console.log("entra a enviar email")
   const config = {
     host: 'smtp.gmail.com',
     port: 587,
@@ -259,6 +260,7 @@ app.post("/usuarios-token", async (req,res) => {
 
 /* --------------------------------- COMPRA MERCADO PAGO --------------------------------------------------- */
 app.post("/webhook", async (req, res) => {
+  console.log("inicio del webhook")
   const payment = req.body;
   if (payment.type === "payment") {
     const paymentId = payment.data.id;
