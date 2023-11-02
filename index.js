@@ -75,7 +75,7 @@ enviarMail = async (productos) => {
     port: 587,
     auth: {
       user: 'marioperez1234ma@gmail.com',
-      pass:'wryq zijk iqic cxtf',
+      pass:'vggj nrgr pesp bdcc',
     },
   };
 
