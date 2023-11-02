@@ -105,7 +105,7 @@ enviarMailPaypal = async (productos) => {
     port: 587,
     auth: {
       user: 'marioperez1234ma@gmail.com',
-      pass:"opiy usfd syqo akrn"
+      pass:"vggj nrgr pesp bdcc"
     },
   };
 
